@@ -1,5 +1,7 @@
 import numpy as np
 
+np.random.seed = 0
+
 def gen_img_kern(img_size, kern_size, F_SIZE=None):
 	img = np.random.random(img_size)
 	kern = np.random.random(kern_size)
@@ -28,3 +30,26 @@ def pad_img_kern(img, kern, F_SIZE):
 
 def corr(img, kern, fft_func, ifft_func):
 	return ifft_func(fft_func(img) * fft_func(kern))
+
+# def normalize(img):
+# 	mu = np.mean(img)
+# 	sigma = np.std(img)
+# 	norm = (img - mu) / sigma
+
+# 	return (norm, mu, sigma)
+
+# def denormalize(norm_img, mu, sigma):
+# 	img = (norm_img * sigma) + mu
+
+# 	return img
+
+def normalize(img):
+	max = np.max(img)
+	norm = img / max
+
+	return (norm, max)
+
+def denormalize(norm_img, max):
+	img = norm_img * max
+
+	return img

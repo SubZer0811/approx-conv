@@ -1,5 +1,8 @@
+import math
 import matplotlib.pyplot as plt
 import time
+
+import numpy as np
 
 class TimerError(Exception):
     """A custom exception used to report errors in use of Timer class"""
@@ -29,6 +32,8 @@ class Timer():
 			raise TimerError(f"Timer is running. Use .stop() to stop it.")
 		return f"{self.elapsed_time:0.4f}"
 
-def view_image(img):
+def view_image(title, img):
 	plt.figure()
+	plt.title(title)
 	plt.imshow(img, cmap="gray")
+	plt.waitforbuttonpress(0)

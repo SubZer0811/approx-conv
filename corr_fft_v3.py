@@ -1,7 +1,8 @@
 import numpy as np
 import corr_helper
+import helper
 
-def compute_w(sig_len):
+def compute_w(sig_len,dtype):
 	W = [[0]*sig_len for i in range(sig_len)]
 	W_I = [[0]*sig_len for i in range(sig_len)]
 
@@ -16,7 +17,8 @@ def compute_w(sig_len):
 def FFT_1D(signal, W):
 
 	signal_f = [signal[int(format(str(bin(i))[:1:-1], f'0{int(np.log2(len(signal)))}s'), base=2)] for i in range(len(signal))]
-
+	signal_f = np.asarray(signal_f, dtype=np.complex128)
+	
 	n = len(signal)
 	for s in range(1, int(np.log2(n))+1):
 		m = 1 << s
@@ -61,7 +63,7 @@ def FFT_2D(signal, W):
 	for i in signal:
 		rows_FFT.append(FFT_1D(i, W))
 	
-	cols_FFT = np.asarray(rows_FFT, dtype=complex).T
+	cols_FFT = np.asarray(rows_FFT, dtype=np.complex128).T
 	signal_f = []
 	for i in cols_FFT:
 		signal_f.append(FFT_1D(i, W))
@@ -73,14 +75,15 @@ def IFFT_2D(signal_f, W_I):
 	for i in signal_f:
 		rows_FFT.append(IFFT_1D(i, W_I))
 	
-	cols_FFT = np.asarray(rows_FFT, dtype=complex).T
+	cols_FFT = np.asarray(rows_FFT, dtype=np.complex128).T
 	signal = []
 	for i in cols_FFT:
 		signal.append(IFFT_1D(i, W_I))
 	return np.asarray(signal).T
 
-def corr(img, kern, W):
-	return IFFT_2D(FFT_2D(img, W) * FFT_2D(kern, W))
+def corr(img, kern, W, W_I):
+	res = IFFT_2D(FFT_2D(img, W) * FFT_2D(kern, W), W_I)
+	return res
 
 if __name__ == "__main__":
 

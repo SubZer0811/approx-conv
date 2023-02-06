@@ -77,3 +77,6 @@ def IFFT_2D(img):
 	for i in cols_FFT:
 		IMG.append(IFFT_1D(i))
 	return np.asarray(IMG).T
+
+def corr(img, kern):
+	return IFFT_2D(FFT_2D(img) * FFT_2D(kern))
