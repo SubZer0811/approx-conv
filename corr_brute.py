@@ -1,6 +1,6 @@
 import numpy as np
 
-def corr(img, kern):
+def corr(img, kern, unpad=None):
 	K_HEIGHT = kern.shape[0]
 	K_WIDTH = kern.shape[1]
 
@@ -22,5 +22,8 @@ def corr(img, kern):
 					sum += img_pad[i+k,j+l] * kern[k,l]
 			
 			out[i,j] = sum
+
+	if unpad:
+		out = out[((IMG_HEIGHT-unpad))//2:((IMG_HEIGHT-unpad))//2+unpad,(IMG_HEIGHT-unpad)//2:(IMG_HEIGHT-unpad)//2+unpad]
 
 	return out
