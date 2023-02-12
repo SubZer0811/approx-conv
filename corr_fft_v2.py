@@ -1,4 +1,5 @@
 import numpy as np
+import corr_helper
 
 def FFT_1D(signal):
 
@@ -78,5 +79,10 @@ def IFFT_2D(signal_f):
 		signal.append(IFFT_1D(i))
 	return np.asarray(signal).T
 
-def corr(img, kern):
-	return IFFT_2D(FFT_2D(img) * FFT_2D(kern))
+def corr(img, kern, unpad):
+	res = IFFT_2D(FFT_2D(img) * FFT_2D(kern).conj())
+
+	if unpad:
+		res = corr_helper.fft_unpad(res, unpad)
+
+	return res

@@ -23,8 +23,10 @@ def pad_img_kern(img, kern, F_SIZE):
 	kern_hp1 = (F_SIZE - kern_h) // 2
 	kern_hp2 = F_SIZE - kern_h - kern_hp1
 
+	# img_p = np.pad(img, ((img_hp1,img_hp2),(img_hp1,img_hp2)))
 	img_p = np.pad(img, ((img_hp1,img_hp2),(img_hp1,img_hp2)))
-	kern_p = np.pad(kern, ((kern_hp1,kern_hp2),(kern_hp1,kern_hp2)))
+	# kern_p = np.pad(kern, ((kern_hp1,kern_hp2),(kern_hp1,kern_hp2)))	#
+	kern_p = np.pad(kern, ((0,kern_hp2*2-1),(0,kern_hp2*2-1)))			#[TODO] Why is it fine to do this???
 
 	return (img_p, kern_p)
 
@@ -53,3 +55,14 @@ def denormalize(norm_img, max):
 	img = norm_img * max
 
 	return img
+
+def fft_unpad(out, unpad):
+	F_SIZE = out.shape[0]
+	IMG_SIZE = unpad[0]
+	K_SIZE = unpad[1]
+	o_s = IMG_SIZE + K_SIZE - 1
+	p_ = (F_SIZE - o_s) // 2 - (K_SIZE - 1)//2
+
+	out = out[p_:p_+o_s,p_:p_+o_s]
+
+	return out
