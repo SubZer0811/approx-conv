@@ -2,7 +2,7 @@ import numpy as np
 import corr_helper
 import helper
 
-def compute_w(sig_len,dtype):
+def compute_w(sig_len):
 	W = [[0]*sig_len for i in range(sig_len)]
 	W_I = [[0]*sig_len for i in range(sig_len)]
 
