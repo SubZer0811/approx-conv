@@ -1,7 +1,5 @@
 import numpy as np
 
-np.random.seed = 0
-
 def gen_img_kern(img_size, kern_size, F_SIZE=None):
 	img = np.random.random(img_size)
 	kern = np.random.random(kern_size)
