@@ -17,7 +17,7 @@ def compute_w(sig_len,dtype):
 def FFT_1D(signal, W):
 
 	signal_f = [signal[int(format(str(bin(i))[:1:-1], f'0{int(np.log2(len(signal)))}s'), base=2)] for i in range(len(signal))]
-	signal_f = np.asarray(signal_f, dtype=np.complex128)
+	signal_f = np.asarray(signal_f)
 	
 	n = len(signal)
 	for s in range(1, int(np.log2(n))+1):
@@ -63,7 +63,7 @@ def FFT_2D(signal, W):
 	for i in signal:
 		rows_FFT.append(FFT_1D(i, W))
 	
-	cols_FFT = np.asarray(rows_FFT, dtype=np.complex128).T
+	cols_FFT = np.asarray(rows_FFT).T
 	signal_f = []
 	for i in cols_FFT:
 		signal_f.append(FFT_1D(i, W))
@@ -75,7 +75,7 @@ def IFFT_2D(signal_f, W_I):
 	for i in signal_f:
 		rows_FFT.append(IFFT_1D(i, W_I))
 	
-	cols_FFT = np.asarray(rows_FFT, dtype=np.complex128).T
+	cols_FFT = np.asarray(rows_FFT).T
 	signal = []
 	for i in cols_FFT:
 		signal.append(IFFT_1D(i, W_I))
