@@ -17,7 +17,7 @@ def compute_w(sig_len):
 def FFT_1D(signal, W):
 
 	signal_f = [signal[int(format(str(bin(i))[:1:-1], f'0{int(np.log2(len(signal)))}s'), base=2)] for i in range(len(signal))]
-	signal_f = np.asarray(signal_f)
+	signal_f = np.asarray(signal_f, dtype=np.complex)
 	
 	n = len(signal)
 	for s in range(1, int(np.log2(n))+1):
