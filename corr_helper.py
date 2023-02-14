@@ -13,7 +13,7 @@ def pad_img_kern(img, kern, F_SIZE):
 	kern_h = kern.shape[0]
 	
 	final_h = pow(2,int(np.ceil(np.log2(img_h + kern_h - 1))))
-	assert final_h <= F_SIZE, "Image and kernel size needs to be smaller!"
+	assert final_h <= F_SIZE, f"Image and kernel size needs to be smaller! {img_h=},{kern_h=},{final_h=}"
 
 	img_hp1 = (F_SIZE - img_h) // 2
 	img_hp2 = F_SIZE - img_h - img_hp1
